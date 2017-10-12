@@ -1,5 +1,6 @@
 package cn.xsmiler.cl.api;
 
+import java.io.IOException;
 import java.util.Set;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
@@ -16,5 +17,7 @@ public interface ICurrentLimiting {
 	
 	void init(Set<HostAndPort> jedisClusterNode, final GenericObjectPoolConfig poolConfig);
 	
-	Jedis jedisForKey(String key);
+	Jedis jedisForKey(String key) throws IOException;
+
+	boolean currentLimit(String key, Jedis jedis, long dimension, long times);
 }
