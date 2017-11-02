@@ -1,12 +1,10 @@
 package cn.xsmiler.cl.api;
 
-import java.io.IOException;
 import java.util.Set;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.Jedis;
 
 /**
  * 分布式限流接口
@@ -15,9 +13,8 @@ import redis.clients.jedis.Jedis;
  */
 public interface ICurrentLimiting {
 	
-	void init(Set<HostAndPort> jedisClusterNode, final GenericObjectPoolConfig poolConfig);
+	void init(Set<HostAndPort> jedisClusterNode, final GenericObjectPoolConfig poolConfig) throws Exception;
 	
-	Jedis jedisForKey(String key) throws IOException;
 
-	boolean currentLimit(String key, Jedis jedis, long dimension, long times);
+	boolean currentLimit(String key, long dimension, long times) throws Exception;
 }

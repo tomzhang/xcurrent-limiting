@@ -1,10 +1,10 @@
 package cn.xsmiler.cl;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.nio.charset.Charset;
 import java.util.Arrays;
+
+import com.google.common.io.Files;
 
 import redis.clients.jedis.Jedis;
 
@@ -15,25 +15,15 @@ public class CurrentLimitingTest {
 	
 	public CurrentLimitingTest() throws Exception {
 		
-		jedis = new Jedis("192.168.211.129", 7001);
-		BufferedReader bf = new BufferedReader(new FileReader(new File("src/main/resources/cl.lua")));
-		String content = "";
-		StringBuilder sb = new StringBuilder();
-		while(content != null){
-			content = bf.readLine();
-			if(content == null){
-				break;
-			}
-			sb.append(content.trim());
-		}
-		bf.close();
-		String luaScript = sb.toString();
+		jedis = new Jedis("192.168.150.129", 6379);
+		
+		String luaScript = Files.toString(new File("src/main/resources/cl.lua"), Charset.defaultCharset());
 		shaKey = jedis.scriptLoad(luaScript);
 	}
 	
 	public boolean currentLimit(String key) {
 		
-		return (long)jedis.evalsha(shaKey, Arrays.asList(key), Arrays.asList("100")) == 1;
+		return (long)jedis.evalsha(shaKey, Arrays.asList(key), Arrays.asList("1")) == 1;
 	}
 	
 	
@@ -41,7 +31,7 @@ public class CurrentLimitingTest {
 		
 		CurrentLimitingTest currentLimiting = new CurrentLimitingTest();
 		int success = 0;
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 10; i++) {
 			if (currentLimiting.currentLimit("name")) {
 				success++;
 			}

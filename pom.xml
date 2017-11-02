@@ -5,11 +5,20 @@
 	<artifactId>xcurrent-limiting</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
+	<properties>
+		<guava.version>20.0</guava.version>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
 			<version>2.9.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
 		</dependency>
 	</dependencies>
 
