@@ -1,12 +1,11 @@
 package cn.xsmiler.cl;
 
+import com.google.common.io.Files;
+import redis.clients.jedis.Jedis;
+
 import java.io.File;
 import java.nio.charset.Charset;
 import java.util.Arrays;
-
-import com.google.common.io.Files;
-
-import redis.clients.jedis.Jedis;
 
 public class CurrentLimitingTest {
 
@@ -15,7 +14,7 @@ public class CurrentLimitingTest {
 	
 	public CurrentLimitingTest() throws Exception {
 		
-		jedis = new Jedis("192.168.150.129", 6379);
+		jedis = new Jedis("192.168.150.130", 7001);
 		
 		String luaScript = Files.toString(new File("src/main/resources/cl.lua"), Charset.defaultCharset());
 		shaKey = jedis.scriptLoad(luaScript);
